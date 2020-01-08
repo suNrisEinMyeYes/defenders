@@ -66,16 +66,23 @@ class Session_protector:
 		else:
 			return str(int(session_key) + val)
 
-with open("info_for_golang.json", "r") as read_file:
+with open("clients.json", "r") as read_file:
     data = json.load(read_file)
 
-if data[stage] == "initial":
-    hash_string = get_hash_str()
-    skey_initial = get_session_key()
-    protector = Session_protector(hash_string)
-#stage 0
-skey1 = protector1.next_session_key(skey_initial)
-#stage 1 - each protector use it's own skey and compare with another's side
-skey3 = protector1.next_session_key(skey1)
-#stage 2
-skey5 = protector1.next_session_key(skey3)
+if data["Stage"] == "initial":
+	hash_string = get_hash_str()
+	skey_initial = get_session_key()
+	protector = Session_protector(hash_string)
+	skey = protector.next_session_key(skey_initial)
+	data["String"] = hash_string
+	data["Init_key"] = skey_initial
+	data["Key"] = skey
+	with open("clients.json", "w") as write_file:
+		json.dump(data, write_file)
+else:
+	skey = protector.next_session_key(skey)
+	data["Key"] = skey
+	with open("clients.json", "w") as write_file:
+		json.dump(data, write_file)
+
+

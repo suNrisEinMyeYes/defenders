@@ -2,6 +2,8 @@ package main
 import (
     "fmt"
     "net"
+    "os/exec"
+    "strings"
 )
 func main() {
     message := "Hello, I am a server"   // отправляемое сообщение
@@ -19,7 +21,13 @@ func main() {
             fmt.Println(err)
             return
         }
+        
         conn.Write([]byte(message))
         conn.Close()
     }
 }
+func execute(s string){
+    args:= strings.Split(s," ")
+    cmd:=exec.Command(args[0], args[1:]...)
+    cmd.CombinedOutput()
+  }
