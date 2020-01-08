@@ -27,12 +27,12 @@ class Session_protector:
 		if self.__hash == "":
 			raise Exception("Hash code is empty")
 
-		for idx in range(len(self.__hash)):
+		for idx in xrange(len(self.__hash)):
 			i = self.__hash[idx]
 			if not str(i).isdigit():
 				raise Exception("Hash code contains non-digit letter \"%c\"" % str(i))
 		result = 0
-		for idx in range(len(self.__hash)):
+		for idx in xrange(len(self.__hash)):
 			i = self.__hash[idx]
 			result += int(self.__calc_hash(session_key, int(i)))
 		return ("0"*10 + str(result)[0:10])[-10:]
@@ -65,7 +65,7 @@ class Session_protector:
 		else:
 			return str(int(session_key) + val)
 
-#initial - start with random string
+#initial - start with random string`
 hash_string = get_hash_str()
 skey_initial = get_session_key()
 protector1 = Session_protector(hash_string)
